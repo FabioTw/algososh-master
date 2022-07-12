@@ -1,0 +1,41 @@
+.sorting-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sorting-radios {
+  display: flex;
+  align-items: center;
+}
+
+.radio {
+  margin-right: 40px;
+}
+
+.sort-button {
+  margin-left: 12px;
+  width: 205px;
+}
+
+.generate-button {
+  margin-left: 80px;
+  width: 205px;
+}
+
+.sorting-form {
+  display: flex;
+  max-width: 980px;
+}
+
+.column-box {
+  height: 368px;
+  display: flex;
+  margin: 48px auto 0; 
+  align-items: flex-end;
+}
+
+.sorting-column {
+  margin-right: 10px;
+}

@@ -1,0 +1,30 @@
+.queue-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.edit-button {
+  margin-left: 12px;
+  width: 205px;
+}
+
+.clear-button {
+  margin-left: 80px;
+  width: 205px;
+}
+
+.queue-form {
+  display: flex;
+  max-width: 980px;
+}
+
+.circle-box {
+  display: flex;
+  margin: 120px auto 0; 
+}
+
+.circle {
+  margin-right: 16px;
+}
