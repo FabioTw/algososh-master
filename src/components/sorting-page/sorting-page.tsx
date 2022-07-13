@@ -7,6 +7,7 @@ import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { ElementStates } from "../../types/element-states";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import { setTimer } from "../utils/utils";
 
 export const SortingPage: React.FC = () => {
   interface Column {
@@ -24,10 +25,6 @@ export const SortingPage: React.FC = () => {
 
   const generateArray = () => {
     setArray(Array.from({length: Math.floor(Math.random() * (18 - 3)) + 3}, () => Math.floor(Math.random() * 100)))
-  }
-
-  const setTimer = async (ms: number) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   const changeStatus = async (timer:boolean, arr: Array<Column>, color: ElementStates, firstIndex: number, secondIndex?: number) => {
