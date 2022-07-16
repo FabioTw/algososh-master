@@ -95,9 +95,15 @@ export const QueuePage: React.FC = () => {
       <div className={styles['queue-block']}>
         <form className={styles['queue-form']}>
           <Input maxLength={4} isLimitText={true} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
-          <Button extraClass={styles['edit-button']} disabled={input==='' || length >= size || delButtonLoader} isLoader={addButtonLoader} text="Добавить" onClick={addElement} />
-          <Button extraClass={styles['edit-button']} disabled={head===-7 || queue[queue.length-1]?.item === '' || addButtonLoader} isLoader={delButtonLoader} text="Удалить" onClick={deleteElement}/>
-          <Button extraClass={styles['clear-button']} disabled={length===0 || addButtonLoader || delButtonLoader} text="Очистить" onClick={clearElements}/>
+          <Button extraClass={styles['edit-button']} 
+            disabled={input==='' || length >= size || delButtonLoader} 
+            isLoader={addButtonLoader} text="Добавить" onClick={addElement} />
+          <Button extraClass={styles['edit-button']} 
+            disabled={head===-7 || queue[queue.length-1]?.item === '' || addButtonLoader} 
+            isLoader={delButtonLoader} text="Удалить" onClick={deleteElement}/>
+          <Button extraClass={styles['clear-button']} 
+            disabled={length===0 || addButtonLoader || delButtonLoader} 
+            text="Очистить" onClick={clearElements}/>
         </form>
         <div className={styles['circle-box']}>
           {
