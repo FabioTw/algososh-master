@@ -7,6 +7,7 @@ import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { setTimer } from "../utils/utils";
 import styles from "./stack.module.css";
+
 export const StackPage: React.FC = () => {
   interface Stack {
     element: string,
@@ -49,7 +50,9 @@ export const StackPage: React.FC = () => {
   };
 
   React.useEffect(()=> {
-    if (stack) {setCircles(true)}
+    if (stack) {
+      setCircles(true);
+    }
     if (addLoader) {
       changeStatus(true, stack, ElementStates.Default, stack.length-1)
     }

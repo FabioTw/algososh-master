@@ -10,7 +10,9 @@
 
 .circle-box {
   display: flex;
-  margin: 120px auto 0; 
+  flex-wrap: wrap;
+  gap: 78px 16px;
+  margin: 48px auto 0; 
   max-width: 944px;
 }
 
@@ -24,5 +26,4 @@
 .circle {
   box-sizing: border-box;
   border-radius: 50%;
-  margin-right: 16px;
 }
