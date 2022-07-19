@@ -6,7 +6,7 @@ import { Circle } from "../ui/circle/circle";
 import { Input } from "../ui/input/input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { setTimer } from "../utils/utils";
-
+import { Queue } from "../utils/queue-class";
 import styles from "./queue.module.css";
 
 export const QueuePage: React.FC = () => {
@@ -16,10 +16,11 @@ export const QueuePage: React.FC = () => {
     color: ElementStates,
   }
 
+  const size: number = 7;
 
   const [input, setInput] = useState<string>('');
-  const [letters, setLetters] = useState<Array<string>>([]);
-  const [queue, setQueue] = useState<Array<IQueue>>([]);
+  const [queue] = useState<Queue<IQueue>>(new Queue<IQueue>(size));
+  const [queueArray, setQueueArray] = useState<Array<IQueue|null>>([]);
   const [head, setHead] = useState<number>(0);
   const [tail, setTail] = useState<number>(0);
   const [length, setLength] = useState<number>(0);
@@ -27,12 +28,11 @@ export const QueuePage: React.FC = () => {
   const [addButtonLoader, setAddButtonLoader] = useState<boolean>(false);
   const [delButtonLoader, setDelButtonLoader] = useState<boolean>(false);
 
-  const size: number = 7;
-  
-  const changeStatus = async (timer:boolean, arr: Array<IQueue>, color: ElementStates, firstIndex: number) => {
+  const changeStatus = async (timer:boolean, arr: Queue<IQueue>, color: ElementStates, index: number) => {
+    console.log(arr.elements, index)
     timer && await setTimer(SHORT_DELAY_IN_MS);
-    arr[firstIndex].color = color;
-    setQueue([...arr]);
+    arr.elements[index]!.color = color;
+    setQueueArray([...arr.elements]);
     if(timer) {
       setAddButtonLoader(false);
       setDelButtonLoader(false);
@@ -40,10 +40,11 @@ export const QueuePage: React.FC = () => {
   };
 
   const clearElements = () => {
-    setHead(0);
-    setTail(0);
-    setQueue([]);
-    setLength(0);
+    queue.clean()
+    setHead(queue.head.index);
+    setTail(queue.tail.index);
+    setQueueArray([]);
+    setLength(queue.length);
   }
 
   const deleteElement = async () => {
@@ -52,12 +53,11 @@ export const QueuePage: React.FC = () => {
     }
     if (queue) {
       setDelButtonLoader(true);
-      changeStatus(false, queue, ElementStates.Changing, head*-1)
-      await changeStatus(true, queue, ElementStates.Default, head*-1)
-      let changedItem = queue;
-      changedItem[head*-1].item = '';
-      setQueue(changedItem)
-      setHead(head !== -7 ? head-1: -6);
+      changeStatus(false, queue, ElementStates.Changing, head)
+      await changeStatus(true, queue, ElementStates.Default, head)
+      queue.dequeue();
+      setQueueArray(queue.elements)
+      setHead(queue.head.index);
     }
   }
 
@@ -65,27 +65,28 @@ export const QueuePage: React.FC = () => {
       if (length >= size) {
         throw new Error("Maximum length exceeded");
       }
-      setQueue([...queue, {item: input, index: length, color: ElementStates.Changing}])
-      setTail(tail !== 7? tail+1 : 7);
-      setLength(length+1);
+      queue.enqueue({item: input, index: length, color: ElementStates.Changing});
+      setQueueArray(queue.elements);
+      setTail(queue.tail.index);
+      setLength(queue.length);
       setInput('');
       setAddButtonLoader(true);
   }
 
   React.useEffect(()=>{
     if (addButtonLoader) {
-      changeStatus(true, queue, ElementStates.Default, length-1)
+      changeStatus(true, queue, ElementStates.Default, tail-1)
     }
-  },[queue])
+  },[queue, addButtonLoader, delButtonLoader, queueArray])
 
   const getCircles = () => {
     let content = [];
     for (let i = 0; i < size; i++) {
       content.push(
-      <Circle key={i} index={i} letter={queue[i] ? queue[i].item : ''} 
-        tail={tail === i+1 && queue[i]?.item!==''? 'tail' : ''} 
-        head={head*-1 === i && queue[i]? 'head' : ''} 
-        state={queue[i] ? queue[i].color : ElementStates.Default} extraClass={`${styles.circle}`}/>);
+      <Circle key={i} index={i} letter={queueArray[i] ? queueArray[i]!.item : ''} 
+        tail={tail === i+1 && queueArray[i]?.item!==''? 'tail' : ''} 
+        head={head === i && queueArray[i]? 'head' : ''} 
+        state={queueArray[i] ? queueArray[i]!.color : ElementStates.Default} extraClass={`${styles.circle}`}/>);
     }
     return content;
   };
@@ -96,13 +97,13 @@ export const QueuePage: React.FC = () => {
         <form className={styles['queue-form']}>
           <Input maxLength={4} isLimitText={true} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
           <Button extraClass={styles['edit-button']} 
-            disabled={input==='' || length >= size || delButtonLoader} 
+            disabled={input === '' || length >= size || tail === size || delButtonLoader} 
             isLoader={addButtonLoader} text="Добавить" onClick={addElement} />
           <Button extraClass={styles['edit-button']} 
-            disabled={head===-7 || queue[queue.length-1]?.item === '' || addButtonLoader} 
+            disabled={head === size || length === 0 || addButtonLoader} 
             isLoader={delButtonLoader} text="Удалить" onClick={deleteElement}/>
           <Button extraClass={styles['clear-button']} 
-            disabled={length===0 || addButtonLoader || delButtonLoader} 
+            disabled={length === 0 || addButtonLoader || delButtonLoader} 
             text="Очистить" onClick={clearElements}/>
         </form>
         <div className={styles['circle-box']}>
