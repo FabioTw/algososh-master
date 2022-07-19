@@ -12,7 +12,7 @@ import { setTimer } from "../utils/utils";
 
 export const StringComponent: React.FC = () => {
 
-  interface Inverted {
+  interface ILetters {
     letter: string,
     color: ElementStates,
   }
@@ -20,10 +20,10 @@ export const StringComponent: React.FC = () => {
   const [circles, setCircles] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
-  const [invertedLetters, setInvertedLetters] = useState<Array<Inverted>>([]);
+  const [invertedLetters, setInvertedLetters] = useState<Array<ILetters>>([]);
 
   let tempInverting: Array<string> = [];
-  let stringArray: Array<Inverted> = [];
+  let stringArray: Array<ILetters> = [];
 
   React.useEffect(()=>{
     tempInverting = input.split('');
@@ -31,7 +31,7 @@ export const StringComponent: React.FC = () => {
     setInvertedLetters(stringArray);
   },[input])
 
-  const changeStatus = async (timer:boolean, arr: Array<Inverted>, color: ElementStates, firstIndex: number, secondIndex: number) => {
+  const changeStatus = async (timer:boolean, arr: Array<ILetters>, color: ElementStates, firstIndex: number, secondIndex: number) => {
     timer && await setTimer(DELAY_IN_MS);
     if (firstIndex <= secondIndex) {
       arr[firstIndex].color = color;
@@ -41,7 +41,7 @@ export const StringComponent: React.FC = () => {
   };
 
 
-  const loop = async (arr: Array<Inverted>) => {
+  const loop = async (arr: Array<ILetters>) => {
     setInvertedLetters([...arr])
     for (let index = 0, last = arr.length; index < last; index++) {
       if (input[index] === arr[index].letter) {

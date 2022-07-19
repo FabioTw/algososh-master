@@ -10,7 +10,7 @@ import { setTimer } from "../utils/utils";
 import styles from "./queue.module.css";
 
 export const QueuePage: React.FC = () => {
-  interface Queue {
+  interface IQueue {
     item: string,
     index: number,
     color: ElementStates,
@@ -19,7 +19,7 @@ export const QueuePage: React.FC = () => {
 
   const [input, setInput] = useState<string>('');
   const [letters, setLetters] = useState<Array<string>>([]);
-  const [queue, setQueue] = useState<Array<Queue>>([]);
+  const [queue, setQueue] = useState<Array<IQueue>>([]);
   const [head, setHead] = useState<number>(0);
   const [tail, setTail] = useState<number>(0);
   const [length, setLength] = useState<number>(0);
@@ -29,7 +29,7 @@ export const QueuePage: React.FC = () => {
 
   const size: number = 7;
   
-  const changeStatus = async (timer:boolean, arr: Array<Queue>, color: ElementStates, firstIndex: number) => {
+  const changeStatus = async (timer:boolean, arr: Array<IQueue>, color: ElementStates, firstIndex: number) => {
     timer && await setTimer(SHORT_DELAY_IN_MS);
     arr[firstIndex].color = color;
     setQueue([...arr]);
@@ -57,7 +57,7 @@ export const QueuePage: React.FC = () => {
       let changedItem = queue;
       changedItem[head*-1].item = '';
       setQueue(changedItem)
-      setHead(head != -7 ? head-1: -6);
+      setHead(head !== -7 ? head-1: -6);
     }
   }
 
@@ -66,7 +66,7 @@ export const QueuePage: React.FC = () => {
         throw new Error("Maximum length exceeded");
       }
       setQueue([...queue, {item: input, index: length, color: ElementStates.Changing}])
-      setTail(tail != 7? tail+1 : 7);
+      setTail(tail !== 7? tail+1 : 7);
       setLength(length+1);
       setInput('');
       setAddButtonLoader(true);
@@ -83,7 +83,7 @@ export const QueuePage: React.FC = () => {
     for (let i = 0; i < size; i++) {
       content.push(
       <Circle key={i} index={i} letter={queue[i] ? queue[i].item : ''} 
-        tail={tail === i+1 && queue[i]?.item!=''? 'tail' : ''} 
+        tail={tail === i+1 && queue[i]?.item!==''? 'tail' : ''} 
         head={head*-1 === i && queue[i]? 'head' : ''} 
         state={queue[i] ? queue[i].color : ElementStates.Default} extraClass={`${styles.circle}`}/>);
     }

@@ -10,15 +10,15 @@ import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 import { setTimer } from "../utils/utils";
 
 export const SortingPage: React.FC = () => {
-  interface Column {
+  interface IColumn {
     number: number,
     color: ElementStates
   }
 
-  let columArray: Array<Column> = [] 
+  let columArray: Array<IColumn> = [] 
 
   const [array, setArray] = useState<Array<number>>(Array.from({length: Math.floor(Math.random() * (18 - 3)) + 3}, () => Math.floor(Math.random() * 100)));
-  const [finalArray, setFinalArray] = useState<Array<Column>>([])
+  const [finalArray, setFinalArray] = useState<Array<IColumn>>([])
   const [checkedChoice, setCheckedChoice] = useState<boolean>(true);
   const [ascendingSort, setAscendingSort] = useState<boolean>(false);
   const [descendingSort, setDescendingSort] = useState<boolean>(false);
@@ -27,7 +27,7 @@ export const SortingPage: React.FC = () => {
     setArray(Array.from({length: Math.floor(Math.random() * (18 - 3)) + 3}, () => Math.floor(Math.random() * 100)))
   }
 
-  const changeStatus = async (timer:boolean, arr: Array<Column>, color: ElementStates, firstIndex: number, secondIndex?: number) => {
+  const changeStatus = async (timer:boolean, arr: Array<IColumn>, color: ElementStates, firstIndex: number, secondIndex?: number) => {
     timer && await setTimer(SHORT_DELAY_IN_MS);
     arr[firstIndex].color = color;
     if (secondIndex) {
@@ -36,7 +36,7 @@ export const SortingPage: React.FC = () => {
     setFinalArray([...arr])
   };
 
-  const selectionSort = async (arr: Array<Column>, isAscending: boolean) => {
+  const selectionSort = async (arr: Array<IColumn>, isAscending: boolean) => {
     for (let index = 0, len = arr.length, k = len - 1; index < k; index++) {
       let indexMin = index;
       await changeStatus(true, arr, ElementStates.Changing, indexMin)
@@ -57,7 +57,7 @@ export const SortingPage: React.FC = () => {
     isAscending ? setAscendingSort(false) : setDescendingSort(false);
   };
 
-  const bubbleSort = async (arr: Array<Column>, isAscending: boolean) => {
+  const bubbleSort = async (arr: Array<IColumn>, isAscending: boolean) => {
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length - i - 1; j++) {
         changeStatus(false, arr, ElementStates.Changing, j, j+1)
