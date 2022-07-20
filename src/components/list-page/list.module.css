@@ -34,9 +34,32 @@
 
 .circle-box {
   display: flex;
-  margin: 78px auto 0; 
+  margin: 39px auto 0; 
+  justify-content: center;
+  align-items: center;
 }
 
 .circle {
   margin-right: 16px;
+  margin-left: 16px;
+}
+
+.circles {
+  position: relative;
+}
+
+.small-circle {
+  z-index: 1;
+  background-color: #fff;
+}
+.small-circle-top {
+  position: absolute;
+  bottom: 88px;
+  left: 12px;
+}
+
+.small-circle-bottom {
+  position: absolute;
+  top: 118px;
+  left: 12px;
 }
