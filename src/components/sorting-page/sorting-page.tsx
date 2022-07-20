@@ -7,30 +7,27 @@ import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { ElementStates } from "../../types/element-states";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
+import { generateArray, setTimer } from "../utils/utils";
 
 export const SortingPage: React.FC = () => {
-  interface Column {
+  interface IColumn {
     number: number,
     color: ElementStates
   }
 
-  let columArray: Array<Column> = [] 
+  let columArray: Array<IColumn> = [] 
 
-  const [array, setArray] = useState<Array<number>>(Array.from({length: Math.floor(Math.random() * (18 - 3)) + 3}, () => Math.floor(Math.random() * 100)));
-  const [finalArray, setFinalArray] = useState<Array<Column>>([])
+  const [array, setArray] = useState<Array<number>>(generateArray(18, 3, 100));
+  const [finalArray, setFinalArray] = useState<Array<IColumn>>([])
   const [checkedChoice, setCheckedChoice] = useState<boolean>(true);
   const [ascendingSort, setAscendingSort] = useState<boolean>(false);
   const [descendingSort, setDescendingSort] = useState<boolean>(false);
 
-  const generateArray = () => {
-    setArray(Array.from({length: Math.floor(Math.random() * (18 - 3)) + 3}, () => Math.floor(Math.random() * 100)))
+  const generateRandomArray = () => {
+    setArray(generateArray(18, 3, 100))
   }
 
-  const setTimer = async (ms: number) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  const changeStatus = async (timer:boolean, arr: Array<Column>, color: ElementStates, firstIndex: number, secondIndex?: number) => {
+  const changeStatus = async (timer:boolean, arr: Array<IColumn>, color: ElementStates, firstIndex: number, secondIndex?: number) => {
     timer && await setTimer(SHORT_DELAY_IN_MS);
     arr[firstIndex].color = color;
     if (secondIndex) {
@@ -39,7 +36,7 @@ export const SortingPage: React.FC = () => {
     setFinalArray([...arr])
   };
 
-  const selectionSort = async (arr: Array<Column>, isAscending: boolean) => {
+  const selectionSort = async (arr: Array<IColumn>, isAscending: boolean) => {
     for (let index = 0, len = arr.length, k = len - 1; index < k; index++) {
       let indexMin = index;
       await changeStatus(true, arr, ElementStates.Changing, indexMin)
@@ -60,7 +57,7 @@ export const SortingPage: React.FC = () => {
     isAscending ? setAscendingSort(false) : setDescendingSort(false);
   };
 
-  const bubbleSort = async (arr: Array<Column>, isAscending: boolean) => {
+  const bubbleSort = async (arr: Array<IColumn>, isAscending: boolean) => {
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length - i - 1; j++) {
         changeStatus(false, arr, ElementStates.Changing, j, j+1)
@@ -107,14 +104,14 @@ export const SortingPage: React.FC = () => {
   return (
     <SolutionLayout title="Сортировка массива">
       <div className={styles['sorting-block']}>
-        <form className={styles['sorting-form']}>
+        <form className={styles['sorting-form']} onSubmit={(e) => e.preventDefault()}>
           <div className={styles['sorting-radios']}>
             <RadioInput extraClass={styles['radio']} onChange={selectRadioChoice} checked={checkedChoice} label="Выбор"/>
-            <RadioInput extraClass={styles['radio']} onChange={selectRadioBubble} checked={!checkedChoice} label="Пузырек"/>
+            <RadioInput extraClass={styles['radio']} onChange={selectRadioBubble} checked={!checkedChoice} label="Пузырёк"/>
           </div>
           <Button disabled={descendingSort} isLoader={ascendingSort} sorting={Direction.Ascending} extraClass={styles['sort-button']} text="По возрастанию" onClick={ascendingSorting} />
           <Button disabled={ascendingSort} isLoader={descendingSort} sorting={Direction.Descending} extraClass={styles['sort-button']} text="По убыванию" onClick={descendingSorting}/>
-          <Button disabled={ascendingSort || descendingSort} extraClass={styles['generate-button']} text="Новый массив" onClick={generateArray}/>
+          <Button disabled={ascendingSort || descendingSort} extraClass={styles['generate-button']} text="Новый массив" onClick={generateRandomArray}/>
         </form>
         <div className={styles['column-box']}>
           {finalArray.map((column, index) => (
