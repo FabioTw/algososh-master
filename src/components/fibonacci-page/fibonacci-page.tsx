@@ -10,7 +10,7 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 export const FibonacciPage: React.FC = () => {
   const [circles, setCircles] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
-  const [input, setInput] = useState<string>();
+  const [input, setInput] = useState<string>('');
   const [fibonacci, setFibonacci] = useState<Array<number>>([]);
 
   let fibonacciArray: Array<number> ;
@@ -41,12 +41,20 @@ export const FibonacciPage: React.FC = () => {
     fibonacciRender();
   }
 
+  React.useEffect(()=> {
+    if (parseInt(input) >= 20) {
+      setInput('19')
+    } else if ((parseInt(input) < 0)) {
+      setInput('0')
+    }
+  },[input])
+
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
      <div className={styles['fibonacci-block']}>
-        <form className={styles['fibonacci-form']}>
+        <form className={styles['fibonacci-form']} onSubmit={(e) => e.preventDefault()}>
           <Input disabled={loader} extraClass={styles['fibonacci-input']} type={'number'} isLimitText={true} maxLength={2} max={19} min={1} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
-          <Button text="Рассчитат" onClick={clicked} isLoader={loader}/>
+          <Button text="Рассчитать" disabled={input === ''} onClick={clicked} isLoader={loader}/>
         </form>
         {circles &&
         <div className={styles['circle-box']}>

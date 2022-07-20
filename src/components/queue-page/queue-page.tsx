@@ -94,8 +94,8 @@ export const QueuePage: React.FC = () => {
   return (
     <SolutionLayout title="Очередь">
       <div className={styles['queue-block']}>
-        <form className={styles['queue-form']}>
-          <Input maxLength={4} isLimitText={true} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
+        <form className={styles['queue-form']} onSubmit={(e) => e.preventDefault()}>
+          <Input extraClass={styles.input} maxLength={4} isLimitText={true} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
           <Button extraClass={styles['edit-button']} 
             disabled={input === '' || length >= size || tail === size || delButtonLoader} 
             isLoader={addButtonLoader} text="Добавить" onClick={addElement} />

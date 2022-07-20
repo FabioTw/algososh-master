@@ -28,3 +28,7 @@
 .circle {
   margin-right: 16px;
 }
+
+.input {
+  max-width: 377px;
+}

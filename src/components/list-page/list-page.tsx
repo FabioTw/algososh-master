@@ -282,9 +282,10 @@ export const ListPage: React.FC = () => {
   return (
     <SolutionLayout title="Связный список">
       <div className={styles['list-block']}>
-        <form className={styles['list-form']}>
+        <form className={styles['list-form']} onSubmit={(e) => e.preventDefault()}>
           <div className={styles['list-elements']}>
             <Input
+              extraClass={styles.inputs}
               disabled={
                 addHeadButtonLoader ||
                 addTailButtonLoader ||
@@ -356,6 +357,7 @@ export const ListPage: React.FC = () => {
           </div>
           <div className={styles['list-elements']}>
             <Input
+              extraClass={styles.inputs}
               disabled={
                 addHeadButtonLoader ||
                 addTailButtonLoader ||

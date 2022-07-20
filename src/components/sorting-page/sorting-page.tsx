@@ -104,10 +104,10 @@ export const SortingPage: React.FC = () => {
   return (
     <SolutionLayout title="Сортировка массива">
       <div className={styles['sorting-block']}>
-        <form className={styles['sorting-form']}>
+        <form className={styles['sorting-form']} onSubmit={(e) => e.preventDefault()}>
           <div className={styles['sorting-radios']}>
             <RadioInput extraClass={styles['radio']} onChange={selectRadioChoice} checked={checkedChoice} label="Выбор"/>
-            <RadioInput extraClass={styles['radio']} onChange={selectRadioBubble} checked={!checkedChoice} label="Пузырек"/>
+            <RadioInput extraClass={styles['radio']} onChange={selectRadioBubble} checked={!checkedChoice} label="Пузырёк"/>
           </div>
           <Button disabled={descendingSort} isLoader={ascendingSort} sorting={Direction.Ascending} extraClass={styles['sort-button']} text="По возрастанию" onClick={ascendingSorting} />
           <Button disabled={ascendingSort} isLoader={descendingSort} sorting={Direction.Descending} extraClass={styles['sort-button']} text="По убыванию" onClick={descendingSorting}/>

@@ -66,8 +66,8 @@ export const StackPage: React.FC = () => {
   return (
     <SolutionLayout title="Стек">
       <div className={styles['stack-block']}>
-        <form className={styles['stack-form']}>
-          <Input disabled={addLoader || stackArray.length === 12} maxLength={4} isLimitText={true} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
+        <form className={styles['stack-form']} onSubmit={(e) => e.preventDefault()}>
+          <Input extraClass={styles.input} disabled={addLoader || stackArray.length === 12} maxLength={4} isLimitText={true} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
           <Button disabled={input.length === 0} extraClass={styles['edit-button']} isLoader={addLoader} text="Добавить" onClick={addElement} />
           <Button disabled={stackArray.length === 0 || addLoader} isLoader={deleteLoader} extraClass={styles['edit-button']} text="Удалить" onClick={deleteElement}/>
           <Button disabled={stackArray.length === 0 || addLoader} extraClass={styles['clear-button']} text="Очистить" onClick={clearElements}/>

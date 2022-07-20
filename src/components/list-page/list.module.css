@@ -8,6 +8,7 @@
 .edit-button {
   margin-left: 12px;
   width: 175px;
+  box-sizing: border-box;
 }
 
 .index-button {
@@ -62,4 +63,8 @@
   position: absolute;
   top: 118px;
   left: 12px;
+}
+
+.inputs {
+  max-width: 204px;
 }

@@ -63,7 +63,7 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <div className={styles['string-block']}>
-        <form className={styles['string-form']}>
+        <form className={styles['string-form']} onSubmit={(e) => e.preventDefault()}>
           <Input extraClass={styles['string-input']} maxLength={11} disabled={loader} isLimitText={true} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
           <Button text="Развернуть" onClick={reverse} isLoader={loader} disabled={input === ''}/>
         </form>
