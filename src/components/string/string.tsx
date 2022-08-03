@@ -70,7 +70,9 @@ export const StringComponent: React.FC = () => {
         {circles &&
         <div className={styles['circle-box']}>
           {invertedLetters.map((letter, index) => (
-            <Circle key={index} state={letter.color} letter={letter.letter} extraClass={`${styles.circle}`}/>
+            <Circle key={index} 
+              state={letter.color} letter={letter.letter} 
+              extraClass={`${styles.circle}`}/>
           ))}
         </div>
         }
