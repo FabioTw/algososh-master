@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { Column } from "../ui/column/column";
@@ -8,8 +8,13 @@ import { Direction } from "../../types/direction";
 import { ElementStates } from "../../types/element-states";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 import { generateArray, setTimer } from "../utils/utils";
+import { useStateIfMounted } from "use-state-if-mounted";
 
-export const SortingPage: React.FC = () => {
+interface ISortPage {
+  standartArray?: Array<number>;
+}
+
+export const SortingPage: React.FC<ISortPage> = ({standartArray}) => {
   interface IColumn {
     number: number,
     color: ElementStates
@@ -17,23 +22,27 @@ export const SortingPage: React.FC = () => {
 
   let columArray: Array<IColumn> = [] 
 
-  const [array, setArray] = useState<Array<number>>(generateArray(18, 3, 100));
-  const [finalArray, setFinalArray] = useState<Array<IColumn>>([])
+  const [array, setArray] = useState<Array<number>>(standartArray || generateArray(18, 3, 100));
+  const [finalArray, setFinalArray] = useStateIfMounted<Array<IColumn>>([])
   const [checkedChoice, setCheckedChoice] = useState<boolean>(true);
-  const [ascendingSort, setAscendingSort] = useState<boolean>(false);
-  const [descendingSort, setDescendingSort] = useState<boolean>(false);
+  const [ascendingSort, setAscendingSort] = useStateIfMounted<boolean>(false);
+  const [descendingSort, setDescendingSort] = useStateIfMounted<boolean>(false);
+
+  const isUnmountedRef = useRef(false);
 
   const generateRandomArray = () => {
     setArray(generateArray(18, 3, 100))
   }
 
   const changeStatus = async (timer:boolean, arr: Array<IColumn>, color: ElementStates, firstIndex: number, secondIndex?: number) => {
-    timer && await setTimer(SHORT_DELAY_IN_MS);
-    arr[firstIndex].color = color;
-    if (secondIndex) {
-      arr[secondIndex].color = color;
+    if (arr.length>0) {
+      timer && await setTimer(SHORT_DELAY_IN_MS);
+      arr[firstIndex].color = color;
+      if (secondIndex) {
+        arr[secondIndex].color = color;
+      }
+      setFinalArray([...arr])
     }
-    setFinalArray([...arr])
   };
 
   const selectionSort = async (arr: Array<IColumn>, isAscending: boolean) => {
@@ -106,14 +115,14 @@ export const SortingPage: React.FC = () => {
       <div className={styles['sorting-block']}>
         <form className={styles['sorting-form']} onSubmit={(e) => e.preventDefault()}>
           <div className={styles['sorting-radios']}>
-            <RadioInput extraClass={styles['radio']} onChange={selectRadioChoice} checked={checkedChoice} label="Выбор"/>
-            <RadioInput extraClass={styles['radio']} onChange={selectRadioBubble} checked={!checkedChoice} label="Пузырёк"/>
+            <RadioInput extraClass={styles['radio']} onChange={selectRadioChoice} checked={checkedChoice} label="Выбор" data-testid="choice"/>
+            <RadioInput extraClass={styles['radio']} onChange={selectRadioBubble} checked={!checkedChoice} label="Пузырёк" data-testid="bubble"/>
           </div>
-          <Button disabled={descendingSort} isLoader={ascendingSort} sorting={Direction.Ascending} extraClass={styles['sort-button']} text="По возрастанию" onClick={ascendingSorting} />
-          <Button disabled={ascendingSort} isLoader={descendingSort} sorting={Direction.Descending} extraClass={styles['sort-button']} text="По убыванию" onClick={descendingSorting}/>
+          <Button disabled={descendingSort} isLoader={ascendingSort} sorting={Direction.Ascending} extraClass={styles['sort-button']} text="По возрастанию" onClick={ascendingSorting} data-testid="ascending"/>
+          <Button disabled={ascendingSort} isLoader={descendingSort} sorting={Direction.Descending} extraClass={styles['sort-button']} text="По убыванию" onClick={descendingSorting} data-testid="descending"/>
           <Button disabled={ascendingSort || descendingSort} extraClass={styles['generate-button']} text="Новый массив" onClick={generateRandomArray}/>
         </form>
-        <div className={styles['column-box']}>
+        <div className={styles['column-box']} data-testid="collumns">
           {finalArray.map((column, index) => (
             <Column extraClass={styles['sorting-column']} key={index} index={column.number} state={column.color}/>
           ))}
