@@ -28,8 +28,6 @@ export const SortingPage: React.FC<ISortPage> = ({standartArray}) => {
   const [ascendingSort, setAscendingSort] = useStateIfMounted<boolean>(false);
   const [descendingSort, setDescendingSort] = useStateIfMounted<boolean>(false);
 
-  const isUnmountedRef = useRef(false);
-
   const generateRandomArray = () => {
     setArray(generateArray(18, 3, 100))
   }

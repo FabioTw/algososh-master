@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { ElementStates } from "../../types/element-states";
 
 import styles from "./string.module.css";
-import circleStyles from "../ui/circle/circle.module.css";
 import { Circle } from "../ui/circle/circle";
 import { DELAY_IN_MS } from "../../constants/delays";
 import { setTimer } from "../utils/utils";
@@ -43,9 +42,7 @@ export const StringComponent: React.FC = () => {
       arr[firstIndex].color = color;
       arr[secondIndex].color = color;
     }
-    // if(!isUnmountedRef.current){
-      setInvertedLetters([...arr])
-    // }
+    setInvertedLetters([...arr])
   };
 
   const stringReverse = async (arr: Array<ILetters>) => {

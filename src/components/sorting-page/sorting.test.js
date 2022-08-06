@@ -1,5 +1,5 @@
 import { render, getByTestId, fireEvent, waitFor, cleanup } from '@testing-library/react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { DELAY_IN_MS } from '../../constants/delays';
 import { SortingPage } from './sorting-page';
 

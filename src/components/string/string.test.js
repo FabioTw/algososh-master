@@ -1,7 +1,6 @@
 import { render, getByTestId, fireEvent, waitFor, cleanup} from '@testing-library/react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
 import { DELAY_IN_MS } from '../../constants/delays';
-import { setTimer } from '../utils/utils';
 import { StringComponent } from './string';
 
 jest.setTimeout(100000)
