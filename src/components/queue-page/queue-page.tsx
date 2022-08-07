@@ -28,11 +28,11 @@ export const QueuePage: React.FC = () => {
   const [addButtonLoader, setAddButtonLoader] = useState<boolean>(false);
   const [delButtonLoader, setDelButtonLoader] = useState<boolean>(false);
 
-  const changeStatus = async (timer:boolean, arr: Queue<IQueue>, color: ElementStates, index: number) => {
-    console.log(arr.elements, index)
-    timer && await setTimer(SHORT_DELAY_IN_MS);
+  const changeStatus = async (timer:boolean, arr: Queue<IQueue>, color: ElementStates, index: number, isDeliting?: boolean) => {
+    timer && addButtonLoader && await setTimer(SHORT_DELAY_IN_MS);
     arr.elements[index]!.color = color;
     setQueueArray([...arr.elements]);
+    timer && isDeliting && await setTimer(SHORT_DELAY_IN_MS)
     if(timer) {
       setAddButtonLoader(false);
       setDelButtonLoader(false);
@@ -53,10 +53,10 @@ export const QueuePage: React.FC = () => {
     }
     if (queue) {
       setDelButtonLoader(true);
-      changeStatus(false, queue, ElementStates.Changing, head)
-      await changeStatus(true, queue, ElementStates.Default, head)
+      await changeStatus(true, queue, ElementStates.Changing, head, true);
+      await changeStatus(true, queue, ElementStates.Default, head);
       queue.dequeue();
-      setQueueArray(queue.elements)
+      setQueueArray(queue.elements);
       setHead(queue.head.index);
     }
   }

@@ -152,7 +152,7 @@ export const ListPage: React.FC = () => {
   }
 
   React.useEffect(()=> {
-    let standartArray = generateArray(5, 2, 99);
+    let standartArray = generateArray(5, 3, 99);
     for (let index = 0; index < standartArray.length; index++) {
       list.append(standartArray[index]);
     }
@@ -293,7 +293,7 @@ export const ListPage: React.FC = () => {
                 deleteTailButtonLoader ||
                 addByIndexButtonLoader ||
                 deleteByIndexButtonLoader ||
-                list.size >= 6
+                listArray.length >= 6
               }
               maxLength={4}
               isLimitText={true}
@@ -309,7 +309,7 @@ export const ListPage: React.FC = () => {
                 addByIndexButtonLoader || 
                 deleteByIndexButtonLoader || 
                 input === '' ||
-                list.size >= 6
+                listArray.length >= 6
               } 
               isLoader={addHeadButtonLoader} 
               text="Добавить в head" 
@@ -323,7 +323,7 @@ export const ListPage: React.FC = () => {
                 addByIndexButtonLoader || 
                 deleteByIndexButtonLoader || 
                 input === '' ||
-                list.size >= 6
+                listArray.length >= 6
               } 
               isLoader={addTailButtonLoader} 
               text="Добавить в tail" 
@@ -336,7 +336,7 @@ export const ListPage: React.FC = () => {
                 deleteTailButtonLoader ||
                 addByIndexButtonLoader ||
                 deleteByIndexButtonLoader || 
-                list.size === 0
+                listArray.length === 0
               }
               isLoader={deleteHeadButtonLoader}
               text="Удалить из head"
@@ -349,7 +349,7 @@ export const ListPage: React.FC = () => {
                 deleteHeadButtonLoader ||
                 addByIndexButtonLoader ||
                 deleteByIndexButtonLoader || 
-                list.size === 0
+                listArray.length === 0
               }
               isLoader={deleteTailButtonLoader}
               text="Удалить из tail"
@@ -382,7 +382,7 @@ export const ListPage: React.FC = () => {
                 deleteByIndexButtonLoader ||
                 enteredIndex === '' ||
                 input === '' ||
-                list.size >= 6
+                listArray.length >= 6
               }
               isLoader={addByIndexButtonLoader}
               text="Добавить по индексу"
@@ -396,7 +396,7 @@ export const ListPage: React.FC = () => {
                 deleteTailButtonLoader ||
                 addByIndexButtonLoader ||
                 enteredIndex === '' ||
-                list.size === 0
+                listArray.length === 0
               }
               isLoader={deleteByIndexButtonLoader}
               text="Удалить по индексу"
