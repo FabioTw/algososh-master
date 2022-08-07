@@ -53,11 +53,11 @@ export const FibonacciPage: React.FC = () => {
     <SolutionLayout title="Последовательность Фибоначчи">
      <div className={styles['fibonacci-block']}>
         <form className={styles['fibonacci-form']} onSubmit={(e) => e.preventDefault()}>
-          <Input disabled={loader} extraClass={styles['fibonacci-input']} type={'number'} isLimitText={true} maxLength={2} max={19} min={1} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
-          <Button text="Рассчитать" disabled={input === ''} onClick={clicked} isLoader={loader}/>
+          <Input data-testid='fibbonacci-input' disabled={loader} extraClass={styles['fibonacci-input']} type={'number'} isLimitText={true} maxLength={2} max={19} min={1} onChange={event => setInput((event.target as HTMLInputElement).value)} value={input} />
+          <Button  data-testid='fibbonacci-button' text="Рассчитать" disabled={input === ''} onClick={clicked} isLoader={loader}/>
         </form>
         {circles &&
-        <div className={styles['circle-box']}>
+        <div className={styles['circle-box']} data-testid='fibbonacci-result'>
           {fibonacci.map((letter, index) => (
             <Circle key={index} index={index} letter={`${letter}`} extraClass={`${styles.circle}`}/>
           ))}
