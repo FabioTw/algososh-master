@@ -6,7 +6,7 @@
 
 GitHub Pages: https://fabiotw.github.io/algososh-master/
 
-Для запуска проекта используется команда **npm run start** </br>
+Для запуска проекта используется команда **npm run start** и он открывается по ссылке http://localhost:3000/ </br>
 Для сборки **npm run build**</br>
 Проект покрыт тестами для их запуска испоьзуются команды **npm run test** и **npm run cypress:open** перед запуском cypress тестов необходимо запустить проект. </br>
 Для деплоя проекта на GitHub Pages используется команда **npm run deploy**
